@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
-public class HomeWork3 {
+public class HomeWork3Test {
 
     @BeforeAll
     static void setUp() {
