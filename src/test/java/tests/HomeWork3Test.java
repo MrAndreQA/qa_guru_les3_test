@@ -1,10 +1,13 @@
 package tests;
 
-import com.codeborne.selenide.*;
-import org.junit.jupiter.api.*;
-import java.io.File;
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.*;
+import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class HomeWork3Test {
@@ -18,10 +21,16 @@ public class HomeWork3Test {
         Configuration.timeout = 5000;
     }
 
-    @Test
-    @DisplayName("Practice Form: проверка заполнение всех полей")
-    void fillPracticeFormTest() {
+    @BeforeEach
+    void openPage() {
         open("/automation-practice-form");
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
+    }
+
+    @Test
+    @DisplayName("Practice Form: проверка заполнения всех полей")
+    void fillPracticeFormTest() {
         $("#firstName").setValue("James");
         $("#lastName").setValue("Bond");
         $("#userEmail").setValue("Jb@universal-exports.uk");
@@ -38,15 +47,14 @@ public class HomeWork3Test {
         $$("div.react-datepicker__day").findBy(text("21")).click();
 
         //Заполнение Subjects
-        $x("//div[@id = 'subjectsContainer']").click();
-        $x("//div[@id = 'subjectsContainer']//input").setValue("E");
-        $x("//div[@id = 'subjectsContainer']//div[contains(text(),'English')]").click();
+        $("#subjectsInput").setValue("English").pressEnter();
 
         // выбираю Hobbies
         $("[for=hobbies-checkbox-1]").click();
 
         // добавляю picture
-        $("#uploadPicture").uploadFile(new File("src/test/resources/картинка.jpg"));
+        //$("#uploadPicture").uploadFile(new File("src/test/resources/картинка.jpg"));
+        $("#uploadPicture").uploadFromClasspath("картинка.jpg");
 
         // заполняем currentAddress
         $("#currentAddress").setValue("Ленина,28");
